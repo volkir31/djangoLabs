@@ -16,7 +16,7 @@ def find_user(request):
     response = requests.get(f"https://api.vk.com/method/users.get?user_ids={vk_id}&access_token={access_key}&v=5.131")
 
     response = Data(response.json()['response'][0])
-    user = models.User.objects.get(vk_id=response.id)
+
     if not models.User.objects.filter(vk_id=response.id).exists():
         user = models.User(name=response.first_name, surname=response.last_name, vk_id=response.id)
         user.save()
@@ -27,6 +27,8 @@ def find_user(request):
             sizes = photo['sizes']
             photo = models.UserImages(user_id=user.id, url=sizes[-1]['url'])
             photo.save()
+    else:
+        user = models.User.objects.get(vk_id=response.id)
     return redirect(f"/user/{user.id}")
 
 
