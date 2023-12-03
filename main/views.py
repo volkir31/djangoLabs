@@ -1,8 +1,7 @@
-from django.shortcuts import render, redirect
 import requests
-import json
+from django.shortcuts import render, redirect
+
 from . import models
-from django.http import HttpResponse
 
 
 def index(request):
