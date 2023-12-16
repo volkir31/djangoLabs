@@ -1,6 +1,10 @@
 version: '3.9'
 services:
   web:
+    networks:
+      - mikhailichenko
+    environment:
+      - LOG_FILE=/logs/log.log
     build:
       context: .
       dockerfile: docker/DockerfileForCompose
@@ -8,3 +12,12 @@ services:
       - "80:80"
     volumes:
       - .:/srv
+      - ./logs:/logs
+
+networks:
+  mikhailichenko:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.20.8.0/24
+          gateway: 10.20.8.1
